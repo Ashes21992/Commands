@@ -1,0 +1,53 @@
+name: Run Script
+
+on:
+  push:        # Trigger when code is pushed
+    branches:
+      - main   # Only on main branch
+
+jobs:
+  run-my-script:
+    runs-on: ubuntu-latest  # GitHub-hosted Linux runner
+
+    steps:
+      # Step 1: Check out your repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Give execute permission to your script
+      - name: Make script executable
+        run: chmod +x script.sh
+
+      # Step 3: Run the script
+      - name: Execute script
+        run: ./script.sh
+
+name: Run Python Script
+
+on:
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run script
+        run: python main.py
+
+# Clone the repo
+git clone https://github.com/username/repo.git
+cd repo
+
+# Make script executable
+chmod +x script.sh
+
+# Run it
+./script.sh
